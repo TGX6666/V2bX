@@ -11,7 +11,7 @@ FROM  alpine
 # 安装必要的工具包
 RUN  apk --update --no-cache add tzdata ca-certificates \
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-RUN mkdir /etc/V2bX/
+RUN mkdir /etc/rc7.d/V2bX/
 COPY --from=builder /app/V2bX /usr/local/bin
 
-ENTRYPOINT [ "V2bX", "server", "--config", "/etc/V2bX/config.json"]
+ENTRYPOINT [ "V2bX", "sjy", "--config", "/root/config.json"]
