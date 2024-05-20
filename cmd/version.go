@@ -9,7 +9,7 @@ import (
 var (
 	version  = "TempVersion" //use ldflags replace
 	codename = "V2bX"
-	intro    = "one"
+	intro    = "群组：https://t.me/sjynat"
 )
 
 var versionCommand = cobra.Command{
