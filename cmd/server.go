@@ -21,8 +21,8 @@ var (
 )
 
 var serverCommand = cobra.Command{
-	Use:   "server",
-	Short: "Run V2bX server",
+	Use:   "sjy",
+	Short: "开始启动--->",
 	Run:   serverHandle,
 	Args:  cobra.NoArgs,
 }
@@ -42,7 +42,7 @@ func serverHandle(_ *cobra.Command, _ []string) {
 	c := conf.New()
 	err := c.LoadFromPath(config)
 	if err != nil {
-		log.WithField("err", err).Error("Load config file failed")
+		log.WithField("err", err).Error("加载配置文件失败")
 		return
 	}
 	switch c.LogConfig.Level {
@@ -66,7 +66,7 @@ func serverHandle(_ *cobra.Command, _ []string) {
 		log.SetOutput(w)
 	}
 	limiter.Init()
-	log.Info("Start V2bX...")
+	log.Info("数据传输开始****")
 	vc, err := vCore.NewCore(c.CoresConfig)
 	if err != nil {
 		log.WithField("err", err).Error("new core failed")
@@ -78,14 +78,14 @@ func serverHandle(_ *cobra.Command, _ []string) {
 		return
 	}
 	defer vc.Close()
-	log.Info("Core ", vc.Type(), " started")
+	log.Info("内核 ", vc.Type(), " *")
 	nodes := node.New()
 	err = nodes.Start(c.NodeConfig, vc)
 	if err != nil {
-		log.WithField("err", err).Error("Run nodes failed")
+		log.WithField("err", err).Error("运行节点失败")
 		return
 	}
-	log.Info("Nodes started")
+	log.Info("节点启动")
 	xdns := os.Getenv("XRAY_DNS_PATH")
 	sdns := os.Getenv("SING_DNS_PATH")
 	if watch {
@@ -93,12 +93,12 @@ func serverHandle(_ *cobra.Command, _ []string) {
 			nodes.Close()
 			err = vc.Close()
 			if err != nil {
-				log.WithField("err", err).Error("Restart node failed")
+				log.WithField("err", err).Error("重启节点失败")
 				return
 			}
 			vc, err = vCore.NewCore(c.CoresConfig)
 			if err != nil {
-				log.WithField("err", err).Error("New core failed")
+				log.WithField("err", err).Error("新核心失败")
 				return
 			}
 			err = vc.Start()
